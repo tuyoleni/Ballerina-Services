@@ -7,8 +7,6 @@ type Programmes record {|
     string faculty;
     string department;
     time:Date registration_date;
-    Courses[] courses;
-
 |};
 
 type Courses record {|
