@@ -1,11 +1,11 @@
 import ballerina/time;
 
 type Programmes record {|
-    string programme_code;
-    string programme_name;
-    string NQF_level;
-    string faculty;
-    string department;
+    string programme_code?;
+    string programme_name?;
+    string NQF_level?;
+    string faculty?;
+    string department?;
     time:Civil registration_date?;
 |};
 
