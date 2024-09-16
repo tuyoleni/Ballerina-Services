@@ -17,6 +17,7 @@ service /api on new http:Listener(3000) {
                 reviewList.push(reviews);
             };
 
+        // If no results are found, return an error
         // if reviewList.length() == 0 {
         //     return error("No Programme is Due");
         // }
@@ -31,7 +32,7 @@ service /api on new http:Listener(3000) {
         SELECT * 
         FROM Programmes
         WHERE programme_code = ${programme_code}
-    `);
+        `);
 
         Programmes[] programmeList = [];
         check from Programmes programme in programmeStream
@@ -39,7 +40,7 @@ service /api on new http:Listener(3000) {
                 programmeList.push(programme);
             };
 
-        // Check if the programme exists
+        // If no results are found, return an error
         if programmeList.length() == 0 {
             return error("Programme not found.");
         }
@@ -74,6 +75,7 @@ service /api on new http:Listener(3000) {
                 programmeList.push(programme);
             };
 
+        // If no results are found, return an error
         // if reviewList.length() == 0 {
         //     return error("No Programme is Due");
         // }
@@ -108,5 +110,7 @@ service /api on new http:Listener(3000) {
 
         return programmeList;
     }
+
+    //Resource 
 
 }
