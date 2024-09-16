@@ -81,4 +81,32 @@ service /api on new http:Listener(3000) {
         return programmeList;
     }
 
+    // Resource function to add a new programme
+    resource function post add_programme(Programmes programme) returns Programmes[]|error {
+        // Insert the new programme into the database
+        _ = check db->execute(`
+                INSERT INTO Programmes (programme_code, programme_name, NQF_level, faculty, department)
+                VALUES (${programme.programme_code}, ${programme.programme_name}, ${programme.NQF_level}, ${programme.faculty}, ${programme.department})
+            `);
+
+        // Query the database for the newly added programme
+        stream<Programmes, sql:Error?> programmeStream = db->query(`
+            SELECT * FROM Programmes WHERE programme_code = ${programme.programme_code}
+        `);
+
+        // Collect results from the stream into a list
+        Programmes[] programmeList = [];
+        check from Programmes programmes in programmeStream
+            do {
+                programmeList.push(programmes);
+            };
+
+        // If no results are found, return an error
+        if (programmeList.length() == 0) {
+            return error("Error adding Programme: " + programme.programme_code.toString() + ", " + programme.programme_name.toString());
+        }
+
+        return programmeList;
+    }
+
 }

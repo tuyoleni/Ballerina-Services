@@ -6,7 +6,7 @@ type Programmes record {|
     string NQF_level;
     string faculty;
     string department;
-    time:Date registration_date;
+    time:Civil registration_date?;
 |};
 
 type Courses record {|
@@ -18,5 +18,5 @@ type Courses record {|
 
 type Reviews record {|
     string programme_code;
-    time:Date review_due_date;
+    time:Civil review_due_date?;
 |};
