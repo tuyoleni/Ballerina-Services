@@ -149,4 +149,21 @@ service /api on new http:Listener(3000) {
         return programmeList;
     }
 
+    //Resource funtion to Retrieve a list of all programmes within the Programme Unit(faculty, department)
+    resource function get get_programmes_in_unit/[string unit]() returns Programmes[]|error {
+        stream<Programmes, sql:Error?> programmeStream = db->query(`
+            SELECT *
+            FROM Programmes
+            WHERE faculty = ${unit} OR department = ${unit}
+        `);
+
+        Programmes[] programmesList = [];
+        check from Programmes programme in programmeStream
+            do {
+                programmesList.push(programme);
+            };
+
+        return programmesList;
+    }
+
 }
